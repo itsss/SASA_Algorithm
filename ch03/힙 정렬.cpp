@@ -1,56 +1,53 @@
 #include <stdio.h>
 
-int a[10000000], n;
-
-void prn(int a[], int n)
-{
-    for(int i=0; i<n; i++)
-    {
-        printf("%d ", a[i]);
-    }
-    puts("");
-}
+int arr[100001];
 
 void swap(int *a, int *b)
 {
-    int t = *a;
+    int tmp = *a;
     *a = *b;
-    *b = t;
+    *b = tmp;
 }
 
-void heapify(int a[], int k, int n)
+void heapify(int a[], int k, int n) //힙성질을 만족하도록, 자식 Node의 값을 비교해 부모 노드보다 자식 Node가 작다면(최소힙), 바꾸어주고 자식 Node에서 다시 Heapify하는 함수.
+//단, 조건을 만족하지 않는 경우, 아무 일도 일어나지 않음.
 {
-    int left = 2 * k;
-    int right = 2 * k + 1;
-    int small;
+    int left = 2*k, right = 2*k+1, small;
+    if(right <= n) //자식 노드가 2개인가?
+    {
+        if(a[left] < a[right]) small = left;
+        else small = right;
+    }
+    else if(left <= n) //자식 노드가 1개인가?
+    {
+        small = left;
+    }
+    else //자식 노드가 존재하지 않는다면,
+    {
+        return; //return
+    }
     
-    if(right<=n) small = a[left] < a[right] ? left : right;
-    else if(left<=n) small = left;
-    else return;
-    
-    if(a[k]>a[small])
+    if(a[k] > a[small])
     {
         swap(&a[k], &a[small]);
-        heapify(a, small, n);
+        heapify(a, small, n); //작은 Node부터 다시 시작
     }
 }
 
-
 void buildHeap(int a[], int n)
 {
-    for(int i=n/2; i>0; i--)
+    for(int i = n / 2; i > 0; i--)
     {
         heapify(a, i, n);
     }
 }
 
-
 void heapSort(int a[], int n)
 {
-    buildHeap(a, n);
-    for(int i=n; i>0; i--)
+    buildHeap(a, n); //주어진 배열을 최소 힙으로 만든다.
+    for(int i = n; i > 0; i--) //최소힙 생성후 힙정렬을 수행한다.
     {
-        printf("%d ", a[1]);
+        printf("%d\n", a[1]);
         swap(&a[1], &a[i]);
         heapify(a, 1, i-1);
     }
@@ -58,11 +55,12 @@ void heapSort(int a[], int n)
 
 int main()
 {
-    scanf("%d", &n);
-    for(int i = 0; i < n; i++)
+    int a;
+    scanf("%d", &a);
+    for(int i = 1; i < a+1; i++)
     {
-        scanf("%d", &a[i+1]);
+        scanf("%d", &arr[i]);
     }
-    prn(a+1, n);
-    heapSort(a, n);
+    heapSort(arr, a);
 }
+

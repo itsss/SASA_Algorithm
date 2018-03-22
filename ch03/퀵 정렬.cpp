@@ -1,8 +1,6 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
 
-int a[10000000], n;
+int arr[100001];
 
 void swap(int *a, int *b)
 {
@@ -11,49 +9,46 @@ void swap(int *a, int *b)
     *b = tmp;
 }
 
-void prn(int a[], int n)
-{
-    for(int i = 0; i < n; i++)
-    {
-        printf("%d\n", a[i]);
-    }
-    puts("");
-}
-
 int partition(int a[], int p, int r)
 {
-    int i=p-1;
-    int pivot = a[r];
-    for(int j = p; j < r; j++)
+    int piv = a[r]; //pivot(기준)
+    int i=p-1, j; //i : 기준보다 작은 데이터의 끝 location, j : 기준보다 큰 데이터의 끝 location
+    
+    for(j = p; j <= r-1; j++) //기준을 제외한 p~r-1까지 비교
     {
-        if(a[j] < pivot)
+        if(a[j] <= piv) //만약, 기준 데이터보다 arr[j] 가 크다면
         {
-            i++;
-            swap(&a[i], &a[j]);
+            swap(&a[++i], &a[j]); //인덱스 i를 증가시킨 (++i) 위치와 arr[j] swap.
         }
     }
-    swap(&a[i+1], &a[r]);
-    return i+1;
+    swap(&a[i+1], &a[j]); //정렬이 완료되면, 기준보다 작은 Data, 큰 Data 사이에 기준 Data를 옮겨준다. 기준보다 큰 첫번째 Data(i+1)를 옮기면 되므로, swap(&arr[i+1], &arr[j]) 로 swap해준다.
+    return i+1; //이후, 기준원소의 위치인 i+1을 반환한다. 이 함수가 파티션 함수이다.
 }
 
 void quickSort(int a[], int p, int r)
 {
-    if(p < r)
+    int q;
+    if(p < r) //입력 데이터가 2개 이상인지 확인한다.
     {
-        int q = partition(a, p, r); //기준의 위치를 partition 함수가 반환
-        quickSort(a, p, q-1); //앞을 기준으로 Quick Sort (p~q-1)
-        quickSort(a, q+1, r); //q+1 ~ r
+        q = partition(a, p, r);
+        quickSort(a, p, q-1); //p~q-1 정렬
+        quickSort(a, q+1, r); //q+1~r 정렬
     }
 }
 
 int main()
 {
-    scanf("%d", &n);
-    for(int i = 0; i < n; i++)
+    int a;
+    scanf("%d", &a);
+    
+    for(int i = 0; i < a; i++)
     {
-        scanf("%d", &a[i]);
+        scanf("%d", &arr[i]);
     }
-    quickSort(a, 0, n-1);
-    prn(a, n);
+    quickSort(arr, 0, a-1);
+    for(int i = 0; i < a; i++)
+    {
+        printf("%d\n", arr[i]);
+    }
 }
-// 1452: 데이터 정렬 (large)
+
