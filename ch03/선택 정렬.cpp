@@ -21,7 +21,7 @@ void prn(int a[], int n)
 
 void selection(int a[], int k)
 {
-    if(k<0) //마지막 요소의 인덱스가 0보다 클 때
+    if(k>0) //검사할 요소가 있는가? (마지막 요소의 인덱스가 0보다 클 때)
     {
         for(int i = 0; i < k; i++)
         {
