@@ -20,7 +20,7 @@ int partition(int a[], int p, int r)
     {
         if (a[j] <= x) swap(&a[++i], &a[j]);
     }
-    swap(&a[i], &a[r]); //a[i+1] => a[i] Code 수정
+    swap(&a[i], &a[p]); //a[i+1] => a[i] Code 수정, a[r] => a[p] Code 수정
     return i; //return i+1 => return i Code 수정
 }
 
