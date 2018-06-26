@@ -6,6 +6,7 @@ int n, m, min, G[MAX][MAX], visited[MAX];
 
 void dfs(int k, int dist) {
     visited[k] = 1;
+    //if(dist >= min) return; //경험적 배제
     if(k == n) {
         if(min > dist) min = dist;
         return;
@@ -27,6 +28,8 @@ int main() {
     }
     min = INF;
     dfs(1,0);
-    printf("%d", min);
+    if(min!=INF) printf("%d", min);
+    else printf("Impossible");
     return 0;
 }
+
